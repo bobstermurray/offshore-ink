@@ -1,29 +1,94 @@
 import folium
+import asyncio
+import random
+import csv
+from pyproj import Transformer
 
-# Center the map off the East Coast of Scotland / Aberdeen
-map_center = [57.15, 0.5] 
+transformers = {}
 
-# "CartoDB positron" provides a clean, black-and-white base map 
-# to mimic the physical e-paper aesthetic.
-m = folium.Map(location=map_center, zoom_start=7, tiles="CartoDB positron")
+def load_assets():
+    """Reads a cleanly formatted CSV file and transforms coordinates."""
+    assets = []
+    try:
+        with open('assets.csv', mode='r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                epsg = row["EPSG"].strip()
+                easting = float(row["Easting"])
+                northing = float(row["Northing"])
+                
+                # If it's already Lat/Lon (EPSG:4326), no transformation needed.
+                # Easting = Longitude, Northing = Latitude
+                if epsg == "EPSG:4326":
+                    lat, lon = northing, easting
+                else:
+                    # Create the transformer only if we haven't used this EPSG yet
+                    if epsg not in transformers:
+                        transformers[epsg] = Transformer.from_crs(epsg, "EPSG:4326", always_xy=True)
+                    
+                    lon, lat = transformers[epsg].transform(easting, northing)
+                
+                assets.append({
+                    "field": row["Field"],
+                    "name": row["Asset"],
+                    "lat": lat,
+                    "lon": lon
+                })
+    except FileNotFoundError:
+        print("Warning: assets.csv not found.")
+    
+    return assets
 
-# We will swap these hardcoded coordinates for a live API feed later.
-# I've included the actual MMSI numbers for your fleet.
-vessels = [
-    {"name": "Seven Kestrel", "mmsi": "235103286", "lat": 57.143, "lon": -2.095, "status": "Aberdeen Harbour"},
-    {"name": "Seven Atlantic", "mmsi": "235071342", "lat": 56.780, "lon": 2.110, "status": "Central North Sea"},
-    {"name": "Seven Falcon", "mmsi": "235084424", "lat": 58.450, "lon": 1.020, "status": "Northern North Sea"}
-]
+# ---------------------------------------------------------
+# The Fleet Dictionary (Simulator)
+# ---------------------------------------------------------
+vessels = {
+    "235103286": {"name": "Seven Kestrel", "lat": 57.143, "lon": -2.095, "status": "Simulated Transit"},
+    "235071342": {"name": "Seven Atlantic", "lat": 56.780, "lon": 2.110, "status": "Simulated DP Ops"},
+    "235084424": {"name": "Seven Falcon", "lat": 58.450, "lon": 1.020, "status": "Simulated Transit"}
+}
 
-# Plot each vessel on the map
-for v in vessels:
-    folium.Marker(
-        location=[v["lat"], v["lon"]],
-        tooltip=v["name"],
-        popup=f"<b>{v['name']}</b><br>MMSI: {v['mmsi']}<br>{v['status']}",
-        icon=folium.Icon(color="black", icon="ship", prefix="fa")
-    ).add_to(m)
+def generate_map():
+    map_center = [57.15, 0.5] 
+    m = folium.Map(location=map_center, zoom_start=7, tiles="CartoDB positron")
 
-# Generate the web page
-m.save("epaper_preview.html")
-print("Map generated! Look for epaper_preview.html in your folder.")
+    # --- Plot the Assets from the Cleaned CSV ---
+    assets = load_assets()
+    for asset in assets:
+        folium.CircleMarker(
+            location=[asset["lat"], asset["lon"]],
+            radius=3, 
+            color="grey",
+            fill=True,
+            fill_color="grey",
+            fill_opacity=0.7,
+            tooltip=f"{asset['field']} - {asset['name']}"
+        ).add_to(m)
+
+    # --- Plot the Vessels ---
+    for mmsi, data in vessels.items():
+        folium.Marker(
+            location=[data["lat"], data["lon"]],
+            tooltip=data["name"],
+            popup=f"<b>{data['name']}</b><br>Status: {data['status']}",
+            icon=folium.Icon(color="black", icon="ship", prefix="fa")
+        ).add_to(m)
+
+    m.save("epaper_preview.html")
+
+# ---------------------------------------------------------
+# Simulator Loop
+# ---------------------------------------------------------
+async def simulate_live_feed():
+    print("Starting Offshore Ink Simulator...")
+    generate_map()
+    
+    while True:
+        await asyncio.sleep(5)
+        mmsi = random.choice(list(vessels.keys()))
+        v = vessels[mmsi]
+        v["lat"] += random.uniform(-0.05, 0.05)
+        v["lon"] += random.uniform(-0.05, 0.05)
+        generate_map()
+
+asyncio.run(simulate_live_feed())

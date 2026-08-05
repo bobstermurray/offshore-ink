@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_378259f08f0a5415a2a0a13991f9f134 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_378259f08f0a5415a2a0a13991f9f134" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_378259f08f0a5415a2a0a13991f9f134 = L.map(
+                "map_378259f08f0a5415a2a0a13991f9f134",
+                {
+                    center: [57.15, 0.5],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_27e6157ef478a59f6c508f40dcdae372 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_27e6157ef478a59f6c508f40dcdae372.addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            var circle_marker_4e669fdb8d007c9c04545b2c5114d06a = L.circleMarker(
+                [57.826220410061644, -0.937222518337172],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_4e669fdb8d007c9c04545b2c5114d06a.bindTooltip(
+                `<div>
+                     Buzzard - CWIM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_57ee83e12afdfe7001c8bf77c38726d2 = L.circleMarker(
+                [57.80003517480558, -0.9410973153423592],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_57ee83e12afdfe7001c8bf77c38726d2.bindTooltip(
+                `<div>
+                     Buzzard - SWIM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_15c13a0ec7b2e676ddd0c975fb6df1c0 = L.circleMarker(
+                [57.56601095263529, -0.8952600317143986],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_15c13a0ec7b2e676ddd0c975fb6df1c0.bindTooltip(
+                `<div>
+                     Buzzard - PLEM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_17957decf985a690e3b7ccf5c8207aea = L.circleMarker(
+                [58.300802864751205, -1.7073780264285823],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_17957decf985a690e3b7ccf5c8207aea.bindTooltip(
+                `<div>
+                     Captain - UTMB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_425a77d6d378bbc377aa188f3a1fb023 = L.circleMarker(
+                [57.18245883122971, 0.9937542918952758],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_425a77d6d378bbc377aa188f3a1fb023.bindTooltip(
+                `<div>
+                     Gannet - Valve Skid A
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b6cb8bfd699046bea1a31781039920a8 = L.circleMarker(
+                [57.15973653736105, 0.9450481631104096],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_b6cb8bfd699046bea1a31781039920a8.bindTooltip(
+                `<div>
+                     Gannet - GC1 Towhead
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c6c203f44e943496b01ddfc25bc8b5b5 = L.circleMarker(
+                [57.34900426466072, 2.085110830001737],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_c6c203f44e943496b01ddfc25bc8b5b5.bindTooltip(
+                `<div>
+                     Arran - Columbus Tie-In Structure
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1894a6bd19e65122a0fc67bc18f59115 = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_1894a6bd19e65122a0fc67bc18f59115.bindTooltip(
+                `<div>
+                     Bittern - DCA & WA Tree
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dd86af64481eeead3f728cbc9a3521b9 = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_dd86af64481eeead3f728cbc9a3521b9.bindTooltip(
+                `<div>
+                     Bittern - DCB & WB Tree
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ea3233648d395c5c1af88b4eafdf1ce6 = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_ea3233648d395c5c1af88b4eafdf1ce6.bindTooltip(
+                `<div>
+                     Bittern - Riser Base
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5b5259ef0abef9d3031ea8de05c0051e = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_5b5259ef0abef9d3031ea8de05c0051e.bindTooltip(
+                `<div>
+                     Belinda - Evelyn Valve Skid (EVVS)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9bced6bf6885544bdd93e61dda6659ab = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_9bced6bf6885544bdd93e61dda6659ab.bindTooltip(
+                `<div>
+                     Belinda - GEEBV Manifold
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bdbc50406ed728befeff20297bbcb344 = L.circleMarker(
+                [0.0, 0.0],
+                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            circle_marker_bdbc50406ed728befeff20297bbcb344.bindTooltip(
+                `<div>
+                     Belinda - Riser Base
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_cf1e9e7e8d235e0e61d7cfae77974f0e = L.marker(
+                [57.44727378223016, -2.0063784746846434],
+                {
+}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            var icon_3465b3771beea2bce372b677bfe5415d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "ship",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_73b7af6e3b78c05093cea1e30f4e56ad = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_078960942e222e3dda057aac1cdae266 = $(`<div id="html_078960942e222e3dda057aac1cdae266" style="width: 100.0%; height: 100.0%;"><b>Seven Kestrel</b><br>Status: Simulated Transit</div>`)[0];
+                popup_73b7af6e3b78c05093cea1e30f4e56ad.setContent(html_078960942e222e3dda057aac1cdae266);
+            
+        
+
+        marker_cf1e9e7e8d235e0e61d7cfae77974f0e.bindPopup(popup_73b7af6e3b78c05093cea1e30f4e56ad)
+        ;
+
+        
+    
+    
+            marker_cf1e9e7e8d235e0e61d7cfae77974f0e.bindTooltip(
+                `<div>
+                     Seven Kestrel
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cf1e9e7e8d235e0e61d7cfae77974f0e.setIcon(icon_3465b3771beea2bce372b677bfe5415d);
+            
+    
+            var marker_689624f3fdbd9c98966ae1d50a4e5ba4 = L.marker(
+                [57.06437078692447, 2.176675991471142],
+                {
+}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            var icon_5666b57a5e0dd47f014e6606952cc394 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "ship",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ed8fb0dd25088a747df7b3fb5aa54ba8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3d9888d717c3e9c421993a0d1be1b829 = $(`<div id="html_3d9888d717c3e9c421993a0d1be1b829" style="width: 100.0%; height: 100.0%;"><b>Seven Atlantic</b><br>Status: Simulated DP Ops</div>`)[0];
+                popup_ed8fb0dd25088a747df7b3fb5aa54ba8.setContent(html_3d9888d717c3e9c421993a0d1be1b829);
+            
+        
+
+        marker_689624f3fdbd9c98966ae1d50a4e5ba4.bindPopup(popup_ed8fb0dd25088a747df7b3fb5aa54ba8)
+        ;
+
+        
+    
+    
+            marker_689624f3fdbd9c98966ae1d50a4e5ba4.bindTooltip(
+                `<div>
+                     Seven Atlantic
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_689624f3fdbd9c98966ae1d50a4e5ba4.setIcon(icon_5666b57a5e0dd47f014e6606952cc394);
+            
+    
+            var marker_2bfd97cdcd527e9141ccefafd7afce51 = L.marker(
+                [58.23634366036836, 1.2134235911246853],
+                {
+}
+            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+        
+    
+            var icon_f4743973b2c1ff7e2da271be9b17a9c9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "ship",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_99deea22cec4c09f752e664d0c0eaeb5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7f4f3849bd995dab7c25fde320636900 = $(`<div id="html_7f4f3849bd995dab7c25fde320636900" style="width: 100.0%; height: 100.0%;"><b>Seven Falcon</b><br>Status: Simulated Transit</div>`)[0];
+                popup_99deea22cec4c09f752e664d0c0eaeb5.setContent(html_7f4f3849bd995dab7c25fde320636900);
+            
+        
+
+        marker_2bfd97cdcd527e9141ccefafd7afce51.bindPopup(popup_99deea22cec4c09f752e664d0c0eaeb5)
+        ;
+
+        
+    
+    
+            marker_2bfd97cdcd527e9141ccefafd7afce51.bindTooltip(
+                `<div>
+                     Seven Falcon
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2bfd97cdcd527e9141ccefafd7afce51.setIcon(icon_f4743973b2c1ff7e2da271be9b17a9c9);
+            
+</script>
+</html>
