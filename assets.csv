@@ -1,0 +1,9 @@
+Field,Asset,Easting,Northing,EPSG
+Buzzard,CWIM,622608.95,6411453.20,"Based on UTM Projection Zone 30 Central Meridian 3° West International Spheroid Datum 1950 ED50"
+Buzzard,SWIM,622467.54,6408531.79,"Based on UTM Projection Zone 30 Central Meridian 3° West International Spheroid Datum 1950 ED50"
+Buzzard,PLEM,626000.23,6382569.60,"Based on UTM Projection Zone 30 Central Meridian 3° West International Spheroid Datum 1950 ED50"
+Captain,UTMB,58°18'05.0"N,1°42'21.0"W,Lat/Long
+Captain (Alternitave from same sheet),UTMB,575862,6463151,"UTM Zone 30 Porjection International Spheroid Central Meridian 3° West"
+Gannet,Valve Skid A,560168.18,6338351.75,"Based on International Spheroid (ED50) Transverse Mercator Projection Central Meridian 0°
+Gannet,GC1 Towhead,557259.10,6335780.60,"Based on International Spheroid (ED50) Transverse Mercator Projection Central Meridian 0°
+Arran,Columbus Tie-In Structure,625563.44,6358376.49,"Based on International Spheroid 1924 Using ED50 Datum Projected Using Transverse Mercator (TM) with a Central Meridian of 0°
