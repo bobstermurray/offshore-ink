@@ -3,6 +3,32 @@
 <head>
     
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <meta http-equiv="refresh" content="30">
+    <style>
+        /* Aged parchment background and sepia ink filter on map tiles */
+        .leaflet-container {
+            background-color: #e6dcc8 !important;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+        .leaflet-tile-pane {
+            filter: sepia(70%) contrast(105%) brightness(92%) hue-rotate(-5deg);
+        }
+        /* Antique styling for the permanent vessel labels */
+        .antique-label {
+            background-color: rgba(244, 236, 216, 0.9) !important;
+            border: 1px solid #4a3525 !important;
+            border-radius: 2px !important;
+            color: #2b1d12 !important;
+            font-family: Georgia, 'Times New Roman', serif !important;
+            font-size: 11px !important;
+            padding: 2px 6px !important;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
+        }
+        .leaflet-tooltip-left.antique-label::before { border-left-color: #4a3525 !important; }
+        .leaflet-tooltip-right.antique-label::before { border-right-color: #4a3525 !important; }
+    </style>
+    
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,7 +43,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_378259f08f0a5415a2a0a13991f9f134 {
+                #map_0d33a40e809c87e7e6ccfee5ade9e4bf {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -54,14 +80,68 @@
 <body>
     
     
-            <div class="folium-map" id="map_378259f08f0a5415a2a0a13991f9f134" ></div>
+    <script>
+        window.addEventListener('load', function() {
+            var map = map_0d33a40e809c87e7e6ccfee5ade9e4bf;
+
+            // 1. Restore saved pan & zoom
+            var savedLat = localStorage.getItem('offshore_ink_lat');
+            var savedLng = localStorage.getItem('offshore_ink_lng');
+            var savedZoom = localStorage.getItem('offshore_ink_zoom');
+            if (savedLat !== null && savedLng !== null && savedZoom !== null) {
+                map.setView([parseFloat(savedLat), parseFloat(savedLng)], parseInt(savedZoom), {animate: false});
+            }
+
+            // Save pan & zoom whenever the user moves the map
+            map.on('moveend zoomend', function() {
+                var center = map.getCenter();
+                localStorage.setItem('offshore_ink_lat', center.lat);
+                localStorage.setItem('offshore_ink_lng', center.lng);
+                localStorage.setItem('offshore_ink_zoom', map.getZoom());
+            });
+
+            // 2. Restore saved base layer selection
+            var savedBase = localStorage.getItem('offshore_ink_baselayer');
+            if (savedBase) {
+                document.querySelectorAll('.leaflet-control-layers-base label').forEach(function(label) {
+                    if (label.textContent.trim() === savedBase) {
+                        var input = label.querySelector('input');
+                        if (input && !input.checked) input.click();
+                    }
+                });
+            }
+
+            // Restore saved overlay checkboxes (e.g. Nautical Seamarks)
+            document.querySelectorAll('.leaflet-control-layers-overlays label').forEach(function(label) {
+                var name = label.textContent.trim();
+                var savedState = localStorage.getItem('offshore_ink_overlay_' + name);
+                var input = label.querySelector('input');
+                if (savedState === 'true' && input && !input.checked) input.click();
+                if (savedState === 'false' && input && input.checked) input.click();
+            });
+
+            // Save layer changes whenever the user toggles them
+            map.on('baselayerchange', function(e) {
+                localStorage.setItem('offshore_ink_baselayer', e.name.trim());
+            });
+            map.on('overlayadd', function(e) {
+                localStorage.setItem('offshore_ink_overlay_' + e.name.trim(), 'true');
+            });
+            map.on('overlayremove', function(e) {
+                localStorage.setItem('offshore_ink_overlay_' + e.name.trim(), 'false');
+            });
+        });
+    </script>
+    
+    
+            <div class="folium-map" id="map_0d33a40e809c87e7e6ccfee5ade9e4bf" ></div>
         
 </body>
 <script>
     
     
-            var map_378259f08f0a5415a2a0a13991f9f134 = L.map(
-                "map_378259f08f0a5415a2a0a13991f9f134",
+            var map_0d33a40e809c87e7e6ccfee5ade9e4bf = L.map(
+                "map_0d33a40e809c87e7e6ccfee5ade9e4bf",
                 {
                     center: [57.15, 0.5],
                     crs: L.CRS.EPSG3857,
@@ -78,15 +158,15 @@
 
         
     
-            var tile_layer_27e6157ef478a59f6c508f40dcdae372 = L.tileLayer(
-                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+            var tile_layer_e5f39b44d839e74b69a1d6176949e85b = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
                 {
   "minZoom": 0,
-  "maxZoom": 20,
-  "maxNativeZoom": 20,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
   "noWrap": false,
-  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
-  "subdomains": "abcd",
+  "attribution": "Tiles \u0026copy; Esri",
+  "subdomains": "abc",
   "detectRetina": false,
   "tms": false,
   "opacity": 1,
@@ -95,16 +175,53 @@
             );
         
     
-            tile_layer_27e6157ef478a59f6c508f40dcdae372.addTo(map_378259f08f0a5415a2a0a13991f9f134);
+            tile_layer_e5f39b44d839e74b69a1d6176949e85b.addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            var circle_marker_4e669fdb8d007c9c04545b2c5114d06a = L.circleMarker(
+            var tile_layer_c1c5733d09c4e9146421e46c0849fc75 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri \u0026mdash; National Geographic",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_c1c5733d09c4e9146421e46c0849fc75.addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
+        
+    
+            var tile_layer_ddaa72fdbd457113fc8a3e20bc52f8c7 = L.tileLayer(
+                "https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Map data: \u0026copy; OpenSeaMap contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            var circle_marker_5fde40ad742a8dd8650c0a60df5399c4 = L.circleMarker(
                 [57.826220410061644, -0.937222518337172],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_4e669fdb8d007c9c04545b2c5114d06a.bindTooltip(
+            circle_marker_5fde40ad742a8dd8650c0a60df5399c4.bindTooltip(
                 `<div>
                      Buzzard - CWIM
                  </div>`,
@@ -114,13 +231,13 @@
             );
         
     
-            var circle_marker_57ee83e12afdfe7001c8bf77c38726d2 = L.circleMarker(
+            var circle_marker_d94745248def2983f760be497cdd34a2 = L.circleMarker(
                 [57.80003517480558, -0.9410973153423592],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_57ee83e12afdfe7001c8bf77c38726d2.bindTooltip(
+            circle_marker_d94745248def2983f760be497cdd34a2.bindTooltip(
                 `<div>
                      Buzzard - SWIM
                  </div>`,
@@ -130,13 +247,13 @@
             );
         
     
-            var circle_marker_15c13a0ec7b2e676ddd0c975fb6df1c0 = L.circleMarker(
+            var circle_marker_4ef56606bf321f36e7dee946298ce0d2 = L.circleMarker(
                 [57.56601095263529, -0.8952600317143986],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_15c13a0ec7b2e676ddd0c975fb6df1c0.bindTooltip(
+            circle_marker_4ef56606bf321f36e7dee946298ce0d2.bindTooltip(
                 `<div>
                      Buzzard - PLEM
                  </div>`,
@@ -146,13 +263,13 @@
             );
         
     
-            var circle_marker_17957decf985a690e3b7ccf5c8207aea = L.circleMarker(
+            var circle_marker_9b381365d4750d2c7bed73a2bfc25ec1 = L.circleMarker(
                 [58.300802864751205, -1.7073780264285823],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_17957decf985a690e3b7ccf5c8207aea.bindTooltip(
+            circle_marker_9b381365d4750d2c7bed73a2bfc25ec1.bindTooltip(
                 `<div>
                      Captain - UTMB
                  </div>`,
@@ -162,13 +279,13 @@
             );
         
     
-            var circle_marker_425a77d6d378bbc377aa188f3a1fb023 = L.circleMarker(
+            var circle_marker_54faaa2fbac003f94fdd1cbc65048a30 = L.circleMarker(
                 [57.18245883122971, 0.9937542918952758],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_425a77d6d378bbc377aa188f3a1fb023.bindTooltip(
+            circle_marker_54faaa2fbac003f94fdd1cbc65048a30.bindTooltip(
                 `<div>
                      Gannet - Valve Skid A
                  </div>`,
@@ -178,13 +295,13 @@
             );
         
     
-            var circle_marker_b6cb8bfd699046bea1a31781039920a8 = L.circleMarker(
+            var circle_marker_7fd7e19cd094d57d87fe2ebee0d5c13e = L.circleMarker(
                 [57.15973653736105, 0.9450481631104096],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_b6cb8bfd699046bea1a31781039920a8.bindTooltip(
+            circle_marker_7fd7e19cd094d57d87fe2ebee0d5c13e.bindTooltip(
                 `<div>
                      Gannet - GC1 Towhead
                  </div>`,
@@ -194,13 +311,13 @@
             );
         
     
-            var circle_marker_c6c203f44e943496b01ddfc25bc8b5b5 = L.circleMarker(
+            var circle_marker_7738f2005ef77569bdeaa1cf7f939f84 = L.circleMarker(
                 [57.34900426466072, 2.085110830001737],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_c6c203f44e943496b01ddfc25bc8b5b5.bindTooltip(
+            circle_marker_7738f2005ef77569bdeaa1cf7f939f84.bindTooltip(
                 `<div>
                      Arran - Columbus Tie-In Structure
                  </div>`,
@@ -210,13 +327,13 @@
             );
         
     
-            var circle_marker_1894a6bd19e65122a0fc67bc18f59115 = L.circleMarker(
+            var circle_marker_2afe7accf0bf75fdae8938ed384da5f2 = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_1894a6bd19e65122a0fc67bc18f59115.bindTooltip(
+            circle_marker_2afe7accf0bf75fdae8938ed384da5f2.bindTooltip(
                 `<div>
                      Bittern - DCA & WA Tree
                  </div>`,
@@ -226,13 +343,13 @@
             );
         
     
-            var circle_marker_dd86af64481eeead3f728cbc9a3521b9 = L.circleMarker(
+            var circle_marker_0784c9700316e7ee9c65503cc411d73f = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_dd86af64481eeead3f728cbc9a3521b9.bindTooltip(
+            circle_marker_0784c9700316e7ee9c65503cc411d73f.bindTooltip(
                 `<div>
                      Bittern - DCB & WB Tree
                  </div>`,
@@ -242,13 +359,13 @@
             );
         
     
-            var circle_marker_ea3233648d395c5c1af88b4eafdf1ce6 = L.circleMarker(
+            var circle_marker_1aea188f0dcbb3d53ed6f7057c7f182e = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_ea3233648d395c5c1af88b4eafdf1ce6.bindTooltip(
+            circle_marker_1aea188f0dcbb3d53ed6f7057c7f182e.bindTooltip(
                 `<div>
                      Bittern - Riser Base
                  </div>`,
@@ -258,13 +375,13 @@
             );
         
     
-            var circle_marker_5b5259ef0abef9d3031ea8de05c0051e = L.circleMarker(
+            var circle_marker_5397eeb7f9f907a0359a8834f971331b = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_5b5259ef0abef9d3031ea8de05c0051e.bindTooltip(
+            circle_marker_5397eeb7f9f907a0359a8834f971331b.bindTooltip(
                 `<div>
                      Belinda - Evelyn Valve Skid (EVVS)
                  </div>`,
@@ -274,13 +391,13 @@
             );
         
     
-            var circle_marker_9bced6bf6885544bdd93e61dda6659ab = L.circleMarker(
+            var circle_marker_7588de5f0375c687ef840b3fb0f7760b = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_9bced6bf6885544bdd93e61dda6659ab.bindTooltip(
+            circle_marker_7588de5f0375c687ef840b3fb0f7760b.bindTooltip(
                 `<div>
                      Belinda - GEEBV Manifold
                  </div>`,
@@ -290,13 +407,13 @@
             );
         
     
-            var circle_marker_bdbc50406ed728befeff20297bbcb344 = L.circleMarker(
+            var circle_marker_4766c08c5b27a54120ff0fdf72142975 = L.circleMarker(
                 [0.0, 0.0],
-                {"bubblingMouseEvents": true, "color": "grey", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "grey", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+                {"bubblingMouseEvents": true, "color": "#6e553e", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#8c6d4f", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 3, "stroke": true, "weight": 3}
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            circle_marker_bdbc50406ed728befeff20297bbcb344.bindTooltip(
+            circle_marker_4766c08c5b27a54120ff0fdf72142975.bindTooltip(
                 `<div>
                      Belinda - Riser Base
                  </div>`,
@@ -306,148 +423,77 @@
             );
         
     
-            var marker_cf1e9e7e8d235e0e61d7cfae77974f0e = L.marker(
-                [57.44727378223016, -2.0063784746846434],
+            var marker_c4ff19b8209177d8eef456ae58948052 = L.marker(
+                [57.90528, -1.86516],
                 {
 }
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
         
     
-            var icon_3465b3771beea2bce372b677bfe5415d = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "black",
-  "iconColor": "white",
-  "icon": "ship",
-  "prefix": "fa",
-  "extraClasses": "fa-rotate-0",
-}
-            );
+            var div_icon_1af5da5806efdb0a79f699abc53d551d = L.divIcon({
+  "html": "\n            \u003cdiv style=\"transform: rotate(89.1deg); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;\"\u003e\n                \u003csvg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\"\u003e\n                    \u003cpolygon points=\"12,2 19,21 12,17 5,21\" fill=\"#1f140e\" stroke=\"#f4ecd8\" stroke-width=\"1.5\"/\u003e\n                \u003c/svg\u003e\n            \u003c/div\u003e\n            ",
+  "iconSize": [24, 24],
+  "iconAnchor": [12, 12],
+  "className": "empty",
+});
         
     
-        var popup_73b7af6e3b78c05093cea1e30f4e56ad = L.popup({
-  "maxWidth": "100%",
+        var popup_1018c89fca36a07d4eaea59a79438806 = L.popup({
+  "maxWidth": 200,
 });
 
         
             
-                var html_078960942e222e3dda057aac1cdae266 = $(`<div id="html_078960942e222e3dda057aac1cdae266" style="width: 100.0%; height: 100.0%;"><b>Seven Kestrel</b><br>Status: Simulated Transit</div>`)[0];
-                popup_73b7af6e3b78c05093cea1e30f4e56ad.setContent(html_078960942e222e3dda057aac1cdae266);
+                var html_98e6d18da49294da903f42110ce7232b = $(`<div id="html_98e6d18da49294da903f42110ce7232b" style="width: 100.0%; height: 100.0%;"><div style='font-family: Georgia, serif; color: #2b1d12;'><b>Seven Kestrel</b><br>MMSI: 235103286<br>Speed: 6.7 kn<br>Course: 89.1&deg;<br>Last Ping: 2026-10-18 22:54:11 UTC</div></div>`)[0];
+                popup_1018c89fca36a07d4eaea59a79438806.setContent(html_98e6d18da49294da903f42110ce7232b);
             
         
 
-        marker_cf1e9e7e8d235e0e61d7cfae77974f0e.bindPopup(popup_73b7af6e3b78c05093cea1e30f4e56ad)
+        marker_c4ff19b8209177d8eef456ae58948052.bindPopup(popup_1018c89fca36a07d4eaea59a79438806)
         ;
 
         
     
     
-            marker_cf1e9e7e8d235e0e61d7cfae77974f0e.bindTooltip(
+            marker_c4ff19b8209177d8eef456ae58948052.bindTooltip(
                 `<div>
-                     Seven Kestrel
+                     <b>Seven Kestrel</b> (6.7 kn)
                  </div>`,
                 {
+  "permanent": true,
+  "direction": "right",
+  "offset": [
+10,
+0,
+],
+  "className": "antique-label",
   "sticky": true,
 }
             );
         
     
-                marker_cf1e9e7e8d235e0e61d7cfae77974f0e.setIcon(icon_3465b3771beea2bce372b677bfe5415d);
+                marker_c4ff19b8209177d8eef456ae58948052.setIcon(div_icon_1af5da5806efdb0a79f699abc53d551d);
             
     
-            var marker_689624f3fdbd9c98966ae1d50a4e5ba4 = L.marker(
-                [57.06437078692447, 2.176675991471142],
+            var layer_control_0f46ffd1ef5b3f8b83ed9b8ea7e74ef6_layers = {
+                base_layers : {
+                    "Antique Ink (Minimal)" : tile_layer_e5f39b44d839e74b69a1d6176949e85b,
+                    "Vintage Atlas (Detailed)" : tile_layer_c1c5733d09c4e9146421e46c0849fc75,
+                },
+                overlays :  {
+                    "Nautical Seamarks" : tile_layer_ddaa72fdbd457113fc8a3e20bc52f8c7,
+                },
+            };
+            let layer_control_0f46ffd1ef5b3f8b83ed9b8ea7e74ef6 = L.control.layers(
+                layer_control_0f46ffd1ef5b3f8b83ed9b8ea7e74ef6_layers.base_layers,
+                layer_control_0f46ffd1ef5b3f8b83ed9b8ea7e74ef6_layers.overlays,
                 {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
 }
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
-        
-    
-            var icon_5666b57a5e0dd47f014e6606952cc394 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "black",
-  "iconColor": "white",
-  "icon": "ship",
-  "prefix": "fa",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_ed8fb0dd25088a747df7b3fb5aa54ba8 = L.popup({
-  "maxWidth": "100%",
-});
+            ).addTo(map_0d33a40e809c87e7e6ccfee5ade9e4bf);
 
         
-            
-                var html_3d9888d717c3e9c421993a0d1be1b829 = $(`<div id="html_3d9888d717c3e9c421993a0d1be1b829" style="width: 100.0%; height: 100.0%;"><b>Seven Atlantic</b><br>Status: Simulated DP Ops</div>`)[0];
-                popup_ed8fb0dd25088a747df7b3fb5aa54ba8.setContent(html_3d9888d717c3e9c421993a0d1be1b829);
-            
-        
-
-        marker_689624f3fdbd9c98966ae1d50a4e5ba4.bindPopup(popup_ed8fb0dd25088a747df7b3fb5aa54ba8)
-        ;
-
-        
-    
-    
-            marker_689624f3fdbd9c98966ae1d50a4e5ba4.bindTooltip(
-                `<div>
-                     Seven Atlantic
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_689624f3fdbd9c98966ae1d50a4e5ba4.setIcon(icon_5666b57a5e0dd47f014e6606952cc394);
-            
-    
-            var marker_2bfd97cdcd527e9141ccefafd7afce51 = L.marker(
-                [58.23634366036836, 1.2134235911246853],
-                {
-}
-            ).addTo(map_378259f08f0a5415a2a0a13991f9f134);
-        
-    
-            var icon_f4743973b2c1ff7e2da271be9b17a9c9 = L.AwesomeMarkers.icon(
-                {
-  "markerColor": "black",
-  "iconColor": "white",
-  "icon": "ship",
-  "prefix": "fa",
-  "extraClasses": "fa-rotate-0",
-}
-            );
-        
-    
-        var popup_99deea22cec4c09f752e664d0c0eaeb5 = L.popup({
-  "maxWidth": "100%",
-});
-
-        
-            
-                var html_7f4f3849bd995dab7c25fde320636900 = $(`<div id="html_7f4f3849bd995dab7c25fde320636900" style="width: 100.0%; height: 100.0%;"><b>Seven Falcon</b><br>Status: Simulated Transit</div>`)[0];
-                popup_99deea22cec4c09f752e664d0c0eaeb5.setContent(html_7f4f3849bd995dab7c25fde320636900);
-            
-        
-
-        marker_2bfd97cdcd527e9141ccefafd7afce51.bindPopup(popup_99deea22cec4c09f752e664d0c0eaeb5)
-        ;
-
-        
-    
-    
-            marker_2bfd97cdcd527e9141ccefafd7afce51.bindTooltip(
-                `<div>
-                     Seven Falcon
-                 </div>`,
-                {
-  "sticky": true,
-}
-            );
-        
-    
-                marker_2bfd97cdcd527e9141ccefafd7afce51.setIcon(icon_f4743973b2c1ff7e2da271be9b17a9c9);
-            
 </script>
 </html>

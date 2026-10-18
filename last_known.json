@@ -1,0 +1,26 @@
+{
+  "235103286": {
+    "name": "Seven Kestrel",
+    "lat": 57.90528,
+    "lon": -1.86516,
+    "sog": 6.7,
+    "cog": 89.1,
+    "updated": "2026-10-18 22:54:11 UTC"
+  },
+  "235071342": {
+    "name": "Seven Atlantic",
+    "lat": null,
+    "lon": null,
+    "sog": 0.0,
+    "cog": 0.0,
+    "updated": "Never"
+  },
+  "235084424": {
+    "name": "Seven Falcon",
+    "lat": null,
+    "lon": null,
+    "sog": 0.0,
+    "cog": 0.0,
+    "updated": "Never"
+  }
+}
